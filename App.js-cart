@@ -1,0 +1,98 @@
+import React from 'react';
+import { StyleSheet, Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ProductsList } from './screens/ProductsList.js';
+import { ProductDetails } from './screens/ProductDetails.js';
+import { Cart } from './screens/Cart.js';
+import { CartIcon } from './components/CartIcon.js';
+import { CartProvider } from './CartContext.js';
+import {
+    Montserrat_100Thin,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black,
+    Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+
+const Stack = createNativeStackNavigator();
+function App() {
+  let [fontsLoad] = useFonts({
+        Montserrat_100Thin,
+        Montserrat_100Thin_Italic,
+        Montserrat_200ExtraLight,
+        Montserrat_200ExtraLight_Italic,
+        Montserrat_300Light,
+        Montserrat_300Light_Italic,
+        Montserrat_400Regular,
+        Montserrat_400Regular_Italic,
+        Montserrat_500Medium,
+        Montserrat_500Medium_Italic,
+        Montserrat_600SemiBold,
+        Montserrat_600SemiBold_Italic,
+        Montserrat_700Bold,
+        Montserrat_700Bold_Italic,
+        Montserrat_800ExtraBold,
+        Montserrat_800ExtraBold_Italic,
+        Montserrat_900Black,
+        Montserrat_900Black_Italic,
+    })
+
+    if (!fontsLoad) {
+        return <AppLoading />;
+    }
+  
+  return (
+    <CartProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name='Rewards' component={ProductsList}
+          options={({ navigation }) => ({
+            title: 'Rewards',
+            headerTitleStyle: styles.headerTitle,
+            headerStyle: {backgroundColor: '#1EB5C6'},
+            headerRight: () => <CartIcon navigation={navigation}/>,
+          })}/>
+          <Stack.Screen name='ProductDetails' component={ProductDetails} 
+          options={({ navigation }) => ({
+            title: 'Product Details',
+            headerTitleStyle: styles.headerTitle,
+            headerStyle: {backgroundColor: '#1EB5C6'},
+            headerRight: () => <CartIcon navigation={navigation}/>,
+          })} />
+          <Stack.Screen name='Cart' component={Cart} 
+          options={({ navigation }) => ({
+            title: 'My Cart',
+            headerTitleStyle: styles.headerTitle,
+            headerStyle: {backgroundColor: '#1EB5C6'},
+            headerRight: () => <CartIcon navigation={navigation}/>,
+          })} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CartProvider>
+  );
+}
+const styles = StyleSheet.create({
+  headerTitle: {
+    fontSize: 20,
+    color: 'white',
+    fontFamily: 'Montserrat_600SemiBold',
+    justifyContent: 'center'
+  }
+});
+export default App;
